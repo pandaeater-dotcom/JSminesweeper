@@ -1,4 +1,5 @@
 let gameOn = false;
+let gameOver = false;
 let numFlags = 0;
 let timer;
 let min = 0;
@@ -83,16 +84,18 @@ function runGame(squareList) {
     grid = document.querySelector('.grid');
     for (let square of squareList) {
         square.addEventListener('mousedown', e => {
-            if (!gameOn) {
-                gameOn = true;
-                timer = setInterval(() => stopWatch(), 1000);
-            };
-            if (e.which === 1) clicked(square, squareList);
-            else if (e.which === 3) {
-                rclicked(square, squareList);
-                if (winCheck(squareList)) {
-                    gameWon(square, squareList);
-                    return;
+            if (!gameOver) {
+                if (!gameOn) {
+                    gameOn = true;
+                    timer = setInterval(() => stopWatch(), 1000);
+                };
+                if (e.which === 1) clicked(square, squareList);
+                else if (e.which === 3) {
+                    rclicked(square, squareList);
+                    if (winCheck(squareList)) {
+                        gameWon(square, squareList);
+                        return;
+                    }
                 }
             }
         })
@@ -100,6 +103,7 @@ function runGame(squareList) {
 }
 
 function gameLost(square, squareList) {
+    gameOver = true;
     const bombList = [];
     square.innerHTML = "<img src='minesweeperbomb.png'></img>";
     square.style.backgroundColor = 'rgb(175, 0, 0)';
@@ -115,6 +119,7 @@ function gameLost(square, squareList) {
 }
 
 function gameWon(square, squareList) {
+    gameOver = true;
     shortcutClicked(square, squareList);
     document.querySelector('#menuTitle').innerText = 'Game Over!';
     document.querySelector('#outcome').innerText = 'You Won!';  
@@ -189,8 +194,10 @@ function shortcutClicked(square, squareList) {
 
     if (square.getAttribute('data') === 'flagged') {
         for (adj of valid) {
-            adj.classList.add('checked');
-            if (adj.getAttribute('data')) adj.innerHTML = `<span>${adj.getAttribute('data')}</span>`;
+            if (adj.getAttribute('data') != 'flagged') {
+                adj.classList.add('checked');
+                if (adj.getAttribute('data')) adj.innerHTML = `<span>${adj.getAttribute('data')}</span>`;    
+            }
         }
         return;
     }

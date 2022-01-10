@@ -9,7 +9,7 @@ function initBoard() {
     const squareList = []
     const bombRatio = 15;
     let square;
-    const gridSize = 20;
+    const gridSize = 6;
     const gridWidth = 36*gridSize+4*(gridSize);
     grid.style.width = `${gridWidth}px`;
     grid.style.height = `${gridWidth}px`;
@@ -91,11 +91,7 @@ function runGame(squareList) {
             else if (e.which === 3) {
                 rclicked(square, squareList);
                 if (winCheck(squareList)) {
-                    shortcutClicked(square, squareList);
-                    document.querySelector('#menuTitle').innerText = 'Game Over!';
-                    document.querySelector('#outcome').innerText = 'You Won!';  
-                    togglePopup();                
-                    clearInterval(timer);
+                    gameWon(square, squareList);
                     return;
                 }
             }
@@ -116,7 +112,18 @@ function gameLost(square, squareList) {
     document.querySelector('#outcome').innerText = 'You Lost :(';  
     togglePopup();
     clearInterval(timer);
-    return;
+}
+
+function gameWon(square, squareList) {
+    shortcutClicked(square, squareList);
+    document.querySelector('#menuTitle').innerText = 'Game Over!';
+    document.querySelector('#outcome').innerText = 'You Won!';  
+    togglePopup();
+    const time = document.createElement('h1');
+    time.innerHTML = `Your Time: <span id='score'>${document.querySelector('#timer').innerHTML}</span>`;
+    setInterval(() => document.querySelector('#score').classList.toggle('blink'), 500);
+    document.querySelector('.content').insertBefore(time, document.querySelector('.buttons'));
+    clearInterval(timer);
 }
 function clicked(square, squareList) {
     if (square.classList.contains('bomb')) {
@@ -179,6 +186,15 @@ function rclicked(square, squareList) {
 function shortcutClicked(square, squareList) {
     let adjFlags = 0;
     const valid = validAdj(square, squareList);
+
+    if (square.getAttribute('data') === 'flagged') {
+        for (adj of valid) {
+            adj.classList.add('checked');
+            if (adj.getAttribute('data')) adj.innerHTML = `<span>${adj.getAttribute('data')}</span>`;
+        }
+        return;
+    }
+
     for (let adj of valid) {
         if (adj.classList.contains('flagged') && !adj.classList.contains('bomb')) {
             gameLost(adj, squareList);
@@ -186,6 +202,7 @@ function shortcutClicked(square, squareList) {
         }
         else if (adj.classList.contains('flagged') && adj.classList.contains('bomb')) adjFlags++;
     }
+    console.log(adjFlags, square.getAttribute('data'));
     if (adjFlags === parseInt(square.getAttribute('data'))) for (let adj of valid) {
         if (!(adj.classList.contains('flagged') || adj.classList.contains('bomb'))) {
             adj.classList.add('checked');
@@ -228,7 +245,6 @@ function updateFlagCounter(squareList) {
 }
 
 function togglePopup() {
-    console.log('poop');
     document.querySelector('.popup').classList.toggle('active');
 }
 

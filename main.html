@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet', href='style.css'>
+    <title>MineSweeper</title>
+</head>
+<body oncontextmenu="return false;">
+    <div id='heading'>
+        <div class="lefthead">
+            <img src='minesweeper.png', id='logo'></img>
+            <h1>MineSweeper</h1>
+        </div>
+        <div class="righthead">
+            <div id='counter'>
+                0/0
+                <img src='minesweeperflag.png' id='counterflag'>
+            </div>
+            <div id="timer">
+                00:00
+            </div>
+            <button class='menuButtons', onclick="togglePopup();">Menu</button>
+        </div>
+    </div>
+    <br>
+    <!-- <form>
+        <input type='text', id='input', placeholder="Enter grid size here">
+        <span id='errorMessage' class='hidden'>Sorry! Invalid input. Please try again.</span>
+    </form> -->
+    <main class='grid'>
+
+    </main>
+    <div class="popup">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 id='menuTitle'>Paused</h1>
+            <h1 id='outcome'></h1>
+            <div class="buttons">
+                <button class='menuButtons', onclick="location.reload();">New Game</button>
+                <button class='menuButtons', onclick="togglePopup();">View Board</button>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript' src='mainlogic.js'></script>
+</body>
+</html>

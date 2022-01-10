@@ -202,7 +202,6 @@ function shortcutClicked(square, squareList) {
         }
         else if (adj.classList.contains('flagged') && adj.classList.contains('bomb')) adjFlags++;
     }
-    console.log(adjFlags, square.getAttribute('data'));
     if (adjFlags === parseInt(square.getAttribute('data'))) for (let adj of valid) {
         if (!(adj.classList.contains('flagged') || adj.classList.contains('bomb'))) {
             adj.classList.add('checked');

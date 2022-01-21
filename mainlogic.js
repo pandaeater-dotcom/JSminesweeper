@@ -10,7 +10,7 @@ function initBoard() {
     const squareList = []
     const bombRatio = 15;
     let square;
-    const gridSize = 6;
+    const gridSize = 16;
     const gridWidth = 36*gridSize+4*(gridSize);
     grid.style.width = `${gridWidth}px`;
     grid.style.height = `${gridWidth}px`;

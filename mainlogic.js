@@ -103,7 +103,7 @@ function runGame(squareList) {
 }
 
 function gameLost(square, squareList) {
-    gameOver = true;
+    gameOver = true; 
     const bombList = [];
     square.innerHTML = "<img src='minesweeperbomb.png'></img>";
     square.style.backgroundColor = 'rgb(175, 0, 0)';
@@ -252,6 +252,10 @@ function updateFlagCounter(squareList) {
 
 function togglePopup() {
     document.querySelector('.popup').classList.toggle('active');
+    if (gameOn) {
+        gameOn = false;
+        clearInterval(timer);
+    }
 }
 
 runGame(initBoard());

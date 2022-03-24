@@ -8,11 +8,13 @@
     <title>MineSweeper</title>
 </head>
 <body oncontextmenu="return false;">
+    <h4><%= gridSize%></h4>
+    <h5><%= username%></h5>
     <div id='heading'>
         <div class="lefthead">
             <img src='minesweeper.png', id='logo'></img>
             <h1>MineSweeper</h1>
-        </div>
+        </div>  
         <div class="righthead">
             <div id='counter'>
                 0/0
@@ -43,6 +45,7 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type='text/javascript' src='mainlogic.js'></script>
 </body>
 </html>

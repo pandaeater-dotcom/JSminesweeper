@@ -176,3 +176,7 @@ h1, h2 {
 #score.blink {
     color:rosybrown;
 }
+
+h4, h5 {
+    display: none;
+}

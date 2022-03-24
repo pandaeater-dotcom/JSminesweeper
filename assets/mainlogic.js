@@ -1,16 +1,18 @@
 let gameOn = false;
 let gameOver = false;
 let numFlags = 0;
+let gridSize = 0;
 let timer;
 let min = 0;
 let sec = 0;
+const username = document.querySelector('h5').innerText;
 
 function initBoard() {
     grid = document.querySelector('.grid');
     const squareList = []
     const bombRatio = 15;
     let square;
-    const gridSize = 16;
+    gridSize = parseInt(document.querySelector('h4').innerText);
     const gridWidth = 36*gridSize+4*(gridSize);
     grid.style.width = `${gridWidth}px`;
     grid.style.height = `${gridWidth}px`;
@@ -129,6 +131,7 @@ function gameWon(square, squareList) {
     setInterval(() => document.querySelector('#score').classList.toggle('blink'), 500);
     document.querySelector('.content').insertBefore(time, document.querySelector('.buttons'));
     clearInterval(timer);
+    sendData();
 }
 function clicked(square, squareList) {
     if (square.classList.contains('bomb')) {
@@ -256,6 +259,22 @@ function togglePopup() {
         gameOn = false;
         clearInterval(timer);
     }
+}
+
+function sendData() {
+    axios({
+        method: 'post',
+        url: '/result',
+        data: {
+            username: username,
+            gridSize: gridSize,
+            seconds: min*60+sec
+        }
+    });
+}
+
+function getFalse() {
+    return false;
 }
 
 runGame(initBoard());

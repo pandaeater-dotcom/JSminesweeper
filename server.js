@@ -33,10 +33,8 @@ app.use(express.static('assets/'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/login', async (req, res) => {
-    // const user = users.find(user => user.username = req.body.username);
     const user = await Player.find({username: req.body.username});
     if (user.length == 0) {
-        console.log('good');
         const user = await getEncrypted(req);
         user.highScores = {};
         const player = new Player(user);
@@ -64,7 +62,7 @@ app.post('/result', (req, res) => {
             const scores = data[0].highScores;
             if (!(gridSize in scores) || (scores[gridSize] > req.body.seconds)) {
                 scores.set(gridSize, req.body.seconds);
-                Player.updateOne({username: req.body.username}, {highScores: scores});
+                Player.updateOne({username: req.body.username}, {highScores: scores})
             }
         })
     console.log(req.body);
